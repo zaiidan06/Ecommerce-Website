@@ -1,0 +1,154 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+#root {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  text-align: center;
+  overflow: hidden;  
+  /* font-family: "Pixelify Sans"; */
+  /* font-family: "VT323", monospace; */
+
+}
+
+.nav-height{
+  height: 10vh;
+}
+
+.logo {
+  height: 5.5em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+   .logo {
+    animation: logo-spin infinite 5s linear;
+  }
+}
+.mt-6{
+  margin-top: 150px;
+}
+
+.full-width{
+  width: 100vw;
+}
+.full-height{
+  height: 100vh;
+}
+
+.navbar-custom{
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header{
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 9.5vh 0 0 0;
+  background: url(assets/banner-zkeyboard.png);
+  background-size: cover;
+  width: 100%;
+  height: 65vh;
+  box-shadow: 0 0 1px rgb(0, 0, 0),
+  0 0 25px  rgb(172, 0, 172),
+  0 0 100px  rgb(255, 0, 255);
+}
+
+/* @media only screen and(max-width: 1536px) {
+  .header{
+    height: 100vh;
+  }
+} */
+
+.categories{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 0 -100px;
+  
+}
+.category{
+  color: black;
+  font-size: 70px;
+  font-family: "VT323", monospace;
+  word-spacing: 1px;
+} 
+.content{
+  margin: 500px 0 0 -20px;
+  padding: 20px;
+  width: 100vw;
+  height: auto;
+}
+
+#product{
+  margin: 125px 0 125px 0;
+  box-shadow: 0 0 5px #2525257f,
+  0 0 1px #2525257f,
+  0 0 10px #2525257f;
+}
+
+.product-img img{
+  width: 300px;
+  height: auto;
+  margin: -50px 0 -70px 0;
+}
+
+.product-description p{
+  font-weight: 400;
+  width: 90%;
+}
+.product-buy button{
+  font-weight: 700;
+  width: 90px;
+  height: auto;
+}
+
+.banner-content{
+  margin: 0 0 100px 0;
+}
+
+.coming-soon-banner img{
+  width: 1440px;
+  height: 55vh;
+  border: 1px solid black;
+}
+
+.footer-container{
+  overflow: hidden;
+  left: 0;
+  position: absolute;
+}
+ul{
+  list-style-type: none;
+}
+
+#mlmin-social-media{
+  margin-left: -45px;
+}
+#mlmin-ecommerce{
+  margin-left: -30px;
+}
