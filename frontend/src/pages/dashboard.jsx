@@ -197,27 +197,27 @@ const Dashboard = () => {
             <div className="card-group">
               <div className="card-custom">
                 <span id="iconDash-1" className="material-symbols-outlined">
-                  <a href="">person</a>
+                  <a href="">keyboard</a>
                 </span>
-                <h5>Daftar Hadir </h5>
+                <h5 className="fw-bold">All Products</h5>
               </div>
               <div className="card-custom">
                 <span id="iconDash-2" className="material-symbols-outlined">
-                  <a href="">keyboard</a>
+                  <a href="">person</a>
                 </span>
-                <h5>Nilai Ujian</h5>
+                <h5 className="fw-bold">Customer Login</h5>
               </div>
               <div className="card-custom">
                 <span id="iconDash-3" className="material-symbols-outlined">
-                  <a href="">group</a>
+                  <a href="">chat</a>
                 </span>
-                <h5>Daftar Tugas</h5>
+                <h5 className="fw-bold">Customer Order</h5>
               </div>
               <div className="card-custom">
                 <span id="iconDash-4" className="material-symbols-outlined">
                   <a href="">shopping_cart</a>
                 </span>
-                <h5>Bantuan KJP</h5>
+                <h5 className="fw-bold">Customer Buy</h5>
               </div>
             </div>
           </div>
