@@ -82,7 +82,7 @@ const Navbar = () => {
   return (
     <>
       <ToastContainer />
-      <nav className="navbar navbar-expand navbar-dark bg-dark fixed-top justify-content-between nav-height mb-5">
+      <nav className="navbar navbar-expand navbar-dark bg-dark fixed-top justify-content-between nav-custom mb-5">
         <a href="#">
           <img src={reactLogo} className="logo react mx-3" alt="React logo" />
         </a>

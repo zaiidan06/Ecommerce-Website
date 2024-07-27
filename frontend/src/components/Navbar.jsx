@@ -9,6 +9,9 @@ import Home from "../pages/home";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LightMode from "../assets/light-mode.png";
+import NightMode from "../assets/night-mode.png";
+import Product from "../pages/product";
 
 const Navbar = () => {
   const isLoggedIn = localStorage.getItem("token");
@@ -33,50 +36,112 @@ const Navbar = () => {
     setTimeout(() => toast.success("Logout Successfully"), 300);
   };
 
+  
+  function Mode() {
+    document.body.classList.toggle("dark-theme");
+    var img = document.getElementById("img-theme");
+    if (document.body.classList.contains("dark-theme")) {
+      img.src = NightMode;
+    } else {
+      img.src = LightMode;
+    }
+  }
+
   return (
     <>
       <ToastContainer />
-      <nav className="navbar navbar-expand navbar-dark bg-dark fixed-top justify-content-between nav-height mb-5">
+      <nav className="navbar navbar-expand mt-4  nav-custom">
         <a href="https://github.com/zaiidan06">
-          <img src={reactLogo} className="logo react mx-3" alt="React logo">
-          </img>
+          <img
+            src={reactLogo}
+            className="logo react mx-3"
+            alt="React logo"
+          ></img>
         </a>
-        <div className="navbar-nav mr-auto p-2 mx-5 fw-semibold fs-5 gap-md-4">
+        <div
+          className="navbar-nav mr-auto p-2 mx-5 fw-semibold fs-5 gap-md-4"
+          style={{
+            width: "50vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <li className="nav-item">
             {isLoggedIn ? (
-              <Link to={"/dashboard"} className="nav-link">
+              <Link
+                to={"/dashboard"}
+                className="nav-link shadow-none secondary-color"
+              >
                 Dashboard
               </Link>
             ) : (
-              <button onClick={back} className="nav-link">
+              <button
+                onClick={back}
+                className="nav-link shadow-none secondary-color"
+              >
                 Dashboard
               </button>
             )}
           </li>
-          <li className="nav-item">
+          <li className="nav-item shadow-none">
             {isLoggedIn ? (
-              <Link to={"/home"} className="nav-link">
+              <Link
+                to={"/home"}
+                className="nav-link shadow-none secondary-color"
+              >
                 Home
               </Link>
             ) : (
-              <button onClick={back} className="nav-link">
+              <button
+                onClick={back}
+                className="nav-link shadow-none secondary-color"
+              >
                 Home
+              </button>
+            )}
+          </li>
+          <li className="nav-item shadow-none">
+            {isLoggedIn ? (
+              <Link
+                to={"/product"}
+                className="nav-link shadow-none secondary-color"
+              >
+                Product
+              </Link>
+            ) : (
+              <button
+                onClick={back}
+                className="nav-link shadow-none secondary-color"
+              >
+                Product
               </button>
             )}
           </li>
 
-          <li className="nav-item">
+          <li className="nav-item shadow-none">
             {isLoggedIn ? (
-              <button onClick={handleLogout} className="nav-link btn btn-link">
+              <button
+                onClick={handleLogout}
+                className="nav-link shadow-none btn btn-link secondary-color"
+              >
                 Logout
               </button>
             ) : (
-              <Link to={"/"} className="nav-link">
+              <Link to={"/"} className="nav-link shadow-none secondary-color">
                 Login
               </Link>
             )}
           </li>
         </div>
+        <img
+          className="light-mode"
+          id="img-theme"
+          src={LightMode}
+          alt="Mode"
+          style={{ width: "45px" }}
+          onClick={Mode}
+        />
       </nav>
       <Routes>
         <Route path="/dashboard/*" element={<Dashboard />} />
@@ -85,8 +150,10 @@ const Navbar = () => {
         <Route path="/create" element={<Create />} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/home/*" element={<Home />} />
+        <Route path="/product/*" element={<Product />} />
       </Routes>
     </>
   );
 };
+
 export default Navbar;

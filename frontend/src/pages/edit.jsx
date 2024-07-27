@@ -110,7 +110,7 @@ const Edit = () => {
   return (
     <>
       <ToastContainer />
-      <div className="row mt-5 container mx-auto">
+      <div className="row container mt-2 container-custom">
         <form
           className="form-control border-dark py-4 px-3 rounded mt-5"
           onSubmit={handleSubmit}

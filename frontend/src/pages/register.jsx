@@ -37,13 +37,13 @@ const Register = () => {
 
   return (
     <>
-      <div className="row mt-5 container mx-auto">
-        <form
-          className="form-control border-dark py-4 px-3 rounded mt-5"
+      <div className="row container mt-4 container-custom">
+      <form
+          className="form-control border-dark py-4 px-5 mt-5"
           onSubmit={handleSubmit} // Menggunakan handleSubmit untuk menangani submit
-          style={{ width: "50vw" }}
+          style={{ width: "380px", height: "480px", borderRadius: "30px" }}
         >
-          <div className="mb-3 fs-3 fw-bold">Register</div>
+          <div className="mt-4 mb-3 fs-3 fw-bold">Register</div>
           <div className="mb-3">
             <label
               htmlFor="name"
@@ -53,7 +53,7 @@ const Register = () => {
             </label>
             <input
               type="text"
-              className="form-control"
+              className="form-control input-custom shadow-none"
               id="name"
               name="name"
               value={formData.name}
@@ -70,7 +70,7 @@ const Register = () => {
             </label>
             <input
               type="email"
-              className="form-control"
+              className="form-control input-custom shadow-none"
               id="email"
               name="email"
               value={formData.email}
@@ -86,7 +86,7 @@ const Register = () => {
               Password
             </label>
             <input
-              className="form-control"
+              className="form-control input-custom shadow-none"
               id="password"
               name="password"
               type="password"
@@ -95,16 +95,16 @@ const Register = () => {
               required
             />
           </div>
-          <div className="row d-flex justify-content-center gap-md-3">
+          <div className="row d-flex justify-content-center gap-md-4">
           <button
             type="submit"
-            className="col-md-4 btn btn-primary mt-4 fw-bold p-2"
+            className="col-md-4 btn btn-outline-primary mt-4 fw-bold p-2 shadow-none"
           >
             Submit
           </button>
           <Link
             to={'/'}
-            className="col-md-6 btn btn-outline-dark mt-4 fw-bold p-2"
+            className="col-md-6 btn btn-outline-dark mt-4 fw-bold p-2 shadow-none"
           >
             Login
           </Link>

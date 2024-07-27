@@ -69,24 +69,24 @@ const Login = () => {
   return (
     <>
       <ToastContainer />
-      <div className="row mt-5 container mx-auto">
+      <div className="row container mt-4 container-custom">
         <form
-          className="form-control border-dark py-4 px-3 rounded"
+          className="form-control border-dark py-4 px-5 mt-5"
           onSubmit={handleSubmit}
-          style={{ width: "50vw" }}
+          style={{ width: "380px", height: "480px", borderRadius: "30px"}}
         >
-          <div className="mb-3 fs-3 fw-bold">Login</div>
+          <div className="mt-4 mb-3 fs-3 fw-bold">Login</div>
           {error && <div className="alert alert-danger">{error}</div>}
           <div className="mb-3">
             <label
               htmlFor="email"
-              className="form-label mt-4 text-left d-flex mx-1 fw-bold"
+              className="form-label label-custom mt-4 text-left d-flex mx-1 fw-bold"
             >
               Email
             </label>
             <input
               type="email"
-              className="form-control"
+              className="form-control input-custom shadow-none"
               id="email"
               name="email"
               value={formData.email}
@@ -102,7 +102,7 @@ const Login = () => {
               Password
             </label>
             <input
-              className="form-control"
+              className="form-control input-custom shadow-none"
               id="password"
               name="password"
               type="password"
@@ -114,16 +114,16 @@ const Login = () => {
           <div className="row d-flex justify-content-center gap-md-3">
             <button
               type="submit"
-              className="col-md-5 btn btn-primary mt-4 fw-bold p-2"
+              className="col-md-11 btn btn-outline-dark mt-4 fw-bold p-2 shadow-none"
             >
               Submit
             </button>
-            <Link
+            <p className="text-start">Don&apos;t Have an account?<Link
               to="/register"
-              className="col-md-6 btn btn-outline-dark mt-4 fw-bold p-2"
+              className="col-md-12 mt-4 fw-bold p-2"
             >
               Register
-            </Link>
+            </Link></p>
           </div>
         </form>
       </div>

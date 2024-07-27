@@ -7,11 +7,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Banner from "../assets/coming-soon.png";
 import Product1 from "../assets/keyboard-noir-n1-grey.png";
+import Product2 from "../assets/keyboard-rk61-plus.png";
+import Product3 from "../assets/keyboard-75.png";
+import Product4 from "../assets/keyboard-Glorious-GMMK-Pro-75-Pre-Built-Edition.png";
+import Product5 from "../assets/keyboard-da-meca-air-s.png";
+import Product6 from "../assets/keyboard-koodo-solar.png";
+import Product7 from "../assets/keyboard-redragon-k617-fizz-pink.png";
 import LightMode from "../assets/light-mode.png";
 import NightMode from "../assets/night-mode.png";
-import Product from "./product";
+import Home from "./home";
 
-const Home = () => {
+const Product = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -59,9 +65,31 @@ const Home = () => {
       navigate("/dashboard");
     } else {
       window.alert("Anda bukan admin!!");
-      navigate("/home");
+      navigate("/product");
     }
   };
+
+  useEffect(() => {
+    new window.Typed("#category1", {
+      strings: ["✨ TOP 3 BEST SELLER PRODUCT 🍀"],
+      typeSpeed: 75,
+      backSpeed: 100,
+      loop: false,
+    });
+    new window.Typed("#category2", {
+      strings: ["✨ KEYBOARD 65% LAYOUT 🍀"],
+      typeSpeed: 75,
+      backSpeed: 100,
+      loop: false,
+    });
+
+    new window.Typed("#category3", {
+      strings: ["✨ OTHER PRODUCTS 🍀"],
+      typeSpeed: 75,
+      backSpeed: 100,
+      loop: false,
+    });
+  }, []);
 
   return (
     <>
@@ -143,12 +171,11 @@ const Home = () => {
           </div>
         </div>
         <div className="content">
-          <div className="categories">
+          <div className="categories" style={{ marginTop: "200px" }}>
             <div className="category-title">
-              {/* <h1 className="category mt-5 mb-4">TOP 3 BEST SELLER PRODUCT</h1> */}
-              <span id="element" className="category mt-5 mb-4">
-                TOP 3 BEST SELLER PRODUCT
-              </span>
+              <h1>
+                <span id="category1" className="category mt-5 mb-4"></span>
+              </h1>
               <hr />
             </div>
           </div>
@@ -205,8 +232,182 @@ const Home = () => {
               </div>
             </div>
           </div>
+          <div className="categories">
+            <div className="category-title">
+              <h1>
+                <span id="category2" className="category mt-5 mb-4"></span>
+              </h1>
+              <hr />
+            </div>
+          </div>
+          <div className="container row d-flex gap-md-5">
+            <div id="product" className="col card">
+              <div className="product-img">
+                <img src={Product2} alt="" />
+              </div>
+              <div className="product-title text-start">
+                <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+              </div>
+              <div className="product-description text-start">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Nesciunt rem qui corrupti aliquam mollitia.
+                </p>
+                <div className="product-buy text-end mb-2 p-3">
+                  <button className="btn btn-dark ">Buy</button>
+                </div>
+              </div>
+            </div>
+            <div id="product" className="col card">
+              <div className="product-img">
+                <img src={Product2} alt="" />
+              </div>
+              <div className="product-title text-start">
+                <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+              </div>
+              <div className="product-description text-start">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Nesciunt rem qui corrupti aliquam mollitia.
+                </p>
+                <div className="product-buy text-end mb-2 p-3">
+                  <button className="btn btn-dark ">Buy</button>
+                </div>
+              </div>
+            </div>
+            <div id="product" className="col card">
+              <div className="product-img">
+                <img src={Product2} alt="" />
+              </div>
+              <div className="product-title text-start">
+                <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+              </div>
+              <div className="product-description text-start">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Nesciunt rem qui corrupti aliquam mollitia.
+                </p>
+                <div className="product-buy text-end mb-2 p-3">
+                  <button className="btn btn-dark ">Buy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="categories">
+            <div className="category-title mb-6">
+              <h1>
+                <span id="category3" className="category"></span>
+              </h1>
+              <hr />
+            </div>
+          </div>
+          <div className="container row d-flex justify-content-center">
+            <div className="d-flex justify-content-center gap-md-4 row row-cols-lg-1 row-cols-md-2 row-cols-lg-3">
+              <div
+                id="product"
+                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
+              >
+                <div className="product-img">
+                  <img src={Product3} alt="" />
+                </div>
+                <div className="product-title text-start">
+                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+                </div>
+                <div className="product-description text-start">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Nesciunt rem qui corrupti aliquam mollitia.
+                  </p>
+                  <div className="product-buy text-end mb-2 p-3">
+                    <button className="btn btn-dark ">Buy</button>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="product"
+                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
+              >
+                <div className="product-img">
+                  <img src={Product4} alt="" />
+                </div>
+                <div className="product-title text-start">
+                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+                </div>
+                <div className="product-description text-start">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Nesciunt rem qui corrupti aliquam mollitia.
+                  </p>
+                  <div className="product-buy text-end mb-2 p-3">
+                    <button className="btn btn-dark ">Buy</button>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="product"
+                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
+              >
+                <div className="product-img">
+                  <img src={Product5} alt="" />
+                </div>
+                <div className="product-title text-start">
+                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+                </div>
+                <div className="product-description text-start">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Nesciunt rem qui corrupti aliquam mollitia.
+                  </p>
+                  <div className="product-buy text-end mb-2 p-3">
+                    <button className="btn btn-dark ">Buy</button>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="product"
+                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
+              >
+                <div className="product-img">
+                  <img src={Product6} alt="" />
+                </div>
+                <div className="product-title text-start">
+                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+                </div>
+                <div className="product-description text-start">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Nesciunt rem qui corrupti aliquam mollitia.
+                  </p>
+                  <div className="product-buy text-end mb-2 p-3">
+                    <button className="btn btn-dark ">Buy</button>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="product"
+                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
+              >
+                <div className="product-img">
+                  <img src={Product7} alt="" />
+                </div>
+                <div className="product-title text-start">
+                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
+                </div>
+                <div className="product-description text-start">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Nesciunt rem qui corrupti aliquam mollitia.
+                  </p>
+                  <div className="product-buy text-end mb-2 p-3">
+                    <button className="btn btn-dark ">Buy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div className="banner-content">
         <div className="coming-soon-banner">
           <img src={Banner} alt="banner.jpg" />
@@ -280,4 +481,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Product;

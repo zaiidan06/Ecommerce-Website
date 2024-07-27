@@ -10,57 +10,44 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
     public function addProduct(Request $request)
-    {
-        $validate = [
-            'product_name' => 'required|unique:products,product_name',
-            'product_image' => 'image|file|max:1024',
-            'product_description' => 'required',
-        ];
+{
+    $validate = [
+        'product_name' => 'required|unique:products,product_name',
+        'product_image' => 'image|file|max:1024',
+        'product_description' => 'required',
+    ];
 
-        $validator = Validator::make($request->all(), $validate);
-        if ($validator->fails()) {
-            return response()->json([
-                'Status' => false,
-                'Message' => 'Validation Process Failed',
-                'data' => $validator->errors()
-            ], 401);
-        }
-
-
-        // if ($request->hasFile('product_image')) {
-        //     $file_name = $request->product_image->getClientOriginalName();
-
-        //     // $path = $request->file('product_image')->storeAs('public/product_image', $file_name);
-        //     // $product_image = 'storage/product_image/' . $file_name;
-
-        //     Storage::putFileAs('product_image', $request->product_image, $file_name);
-
-        //      $product_image = $request['product_image'] = $file_name;
-        // }
-
-        $product_image = null;
-
-        if ($request->hasFile('product_image')) {
-            $file = $request->file('product_image');
-            $file_name = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('public/product_image', $file_name);
-            $product_image = Storage::url($path);
-        }
-
-        $data = Product::create([
-            'id' => $request->id,
-            'product_name' => $request->product_name,
-            'product_image' => $product_image,
-            'product_description' => $request->product_description,
-        ]);
-
+    $validator = Validator::make($request->all(), $validate);
+    if ($validator->fails()) {
         return response()->json([
-            'Status' => true,
-            'Message' => 'Validation Process Success',
-            'data' => $data
-        ], 200);
-
+            'Status' => false,
+            'Message' => 'Validation Process Failed',
+            'data' => $validator->errors()
+        ], 401);
     }
+
+    $product_image = null;
+
+    if ($request->hasFile('product_image')) {
+        $file = $request->file('product_image');
+        $file_name = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('public/product_image', $file_name);
+        $product_image = 'storage/product_image/' . $file_name;
+    }
+
+    $data = Product::create([
+        'id' => $request->id,
+        'product_name' => $request->product_name,
+        'product_image' => $product_image,
+        'product_description' => $request->product_description,
+    ]);
+
+    return response()->json([
+        'Status' => true,
+        'Message' => 'Validation Process Success',
+        'data' => $data
+    ], 200);
+}
 
     public function deleteProduct(string $id)
     {
