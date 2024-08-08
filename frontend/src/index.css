@@ -353,7 +353,7 @@ ul {
   left: 0;
   position: absolute;
   width: 100vw;
-  height: 120vh;
+  height: max-content;
 }
 
 nav{

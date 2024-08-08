@@ -8,11 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Banner from "../assets/coming-soon.png";
 import Product1 from "../assets/keyboard-noir-n1-grey.png";
 import Product2 from "../assets/keyboard-rk61-plus.png";
-import Product3 from "../assets/keyboard-75.png";
-import Product4 from "../assets/keyboard-Glorious-GMMK-Pro-75-Pre-Built-Edition.png";
-import Product5 from "../assets/keyboard-da-meca-air-s.png";
-import Product6 from "../assets/keyboard-koodo-solar.png";
-import Product7 from "../assets/keyboard-redragon-k617-fizz-pink.png";
 import LightMode from "../assets/light-mode.png";
 import NightMode from "../assets/night-mode.png";
 import Home from "./home";
@@ -21,6 +16,11 @@ const Product = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [data, setData] = useState([]);
+  const [productImage, setProductImage] = useState(null);
+  const [productName, setProductName] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState(null);
 
   useEffect(() => {
     // Check if user is admin
@@ -29,18 +29,54 @@ const Product = () => {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
-          // "Content-type": "multipart/form-data",
-          // type: "formData",
         },
       })
       .then((res) => {
         setIsAdmin(res.data.data.isAdmin);
+        setUserId(res.data.data.id);
+        setUserName(res.data.data.name);
         console.log(res.data.data.isAdmin);
+        console.log(res.data.data.id);
+        console.log(res.data.data.name);
       })
       .catch((error) => {
         console.error("Error:", error);
         window.alert("Anda bukan admin!!");
         navigate("/dashboard");
+      });
+      axios
+      .get("http://localhost:8000/api/a1/product/allproduct", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+
+      .then((res) => {
+        console.log(res.data); // Periksa struktur data di sini
+        if (res.data.data && res.data.data.length > 0) {
+          // Mengambil data produk pertama sebagai contoh
+          const firstProduct = res.data.data[0];
+          setProductImage(firstProduct.product_image);
+          setProductName(firstProduct.product_name);
+          console.log(firstProduct.product_image);
+          console.log(firstProduct.product_name);
+        }
+        setData(res.data.data);
+      })
+      
+      // .then((res) => {
+      //   setData(res.data.data);
+      //   setProductImage(res.data.data.product_image);
+      //   setProductName(res.data.data.product_name);
+        
+
+      //   console.log(res.data.data);
+      //   console.log(res.data.data.product_image);
+      //   console.log(res.data.data.product_name);
+      // })
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, [navigate, token]);
 
@@ -69,6 +105,40 @@ const Product = () => {
     }
   };
 
+  const buyProduct = async (productId) => {
+    try {
+      // Temukan produk berdasarkan ID
+      // const product = data.find(item => item.id === productId);
+  
+      // if (!product) {
+      //   throw new Error("Product not found");
+      // }
+  
+      const response = await axios.post(
+        "http://localhost:8000/api/a1/product/buyproduct",
+        {
+          product_id: productId,
+          user_id: userId,
+          product_name: productName,
+          product_image: productImage,
+          user_name: userName,
+          status: 'pending',
+        },
+        
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data.message);
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to buy product");
+    }
+  };
+
   useEffect(() => {
     new window.Typed("#category1", {
       strings: ["✨ TOP 3 BEST SELLER PRODUCT 🍀"],
@@ -89,7 +159,7 @@ const Product = () => {
       backSpeed: 100,
       loop: false,
     });
-  }, []);
+  }, [navigate, token]);
 
   return (
     <>
@@ -193,7 +263,7 @@ const Product = () => {
                   Nesciunt rem qui corrupti aliquam mollitia.
                 </p>
                 <div className="product-buy text-end mb-2 p-3">
-                  <button className="btn btn-dark ">Buy</button>
+                  <button className="btn btn-dark "onClick={() => {buyProduct}}>Buy</button>
                 </div>
               </div>
             </div>
@@ -210,7 +280,7 @@ const Product = () => {
                   Nesciunt rem qui corrupti aliquam mollitia.
                 </p>
                 <div className="product-buy text-end mb-2 p-3">
-                  <button className="btn btn-dark ">Buy</button>
+                  <button className="btn btn-dark "onClick={() => {buyProduct}}>Buy</button>
                 </div>
               </div>
             </div>
@@ -227,7 +297,7 @@ const Product = () => {
                   Nesciunt rem qui corrupti aliquam mollitia.
                 </p>
                 <div className="product-buy text-end mb-2 p-3">
-                  <button className="btn btn-dark ">Buy</button>
+                  <button className="btn btn-dark "onClick={() => {buyProduct}}>Buy</button>
                 </div>
               </div>
             </div>
@@ -254,7 +324,7 @@ const Product = () => {
                   Nesciunt rem qui corrupti aliquam mollitia.
                 </p>
                 <div className="product-buy text-end mb-2 p-3">
-                  <button className="btn btn-dark ">Buy</button>
+                  <button className="btn btn-dark "onClick={() => {buyProduct}}>Buy</button>
                 </div>
               </div>
             </div>
@@ -271,7 +341,7 @@ const Product = () => {
                   Nesciunt rem qui corrupti aliquam mollitia.
                 </p>
                 <div className="product-buy text-end mb-2 p-3">
-                  <button className="btn btn-dark ">Buy</button>
+                  <button className="btn btn-dark "onClick={() => {buyProduct}}>Buy</button>
                 </div>
               </div>
             </div>
@@ -288,7 +358,7 @@ const Product = () => {
                   Nesciunt rem qui corrupti aliquam mollitia.
                 </p>
                 <div className="product-buy text-end mb-2 p-3">
-                  <button className="btn btn-dark ">Buy</button>
+                  <button className="btn btn-dark "onClick={() => {buyProduct}}>Buy</button>
                 </div>
               </div>
             </div>
@@ -303,106 +373,29 @@ const Product = () => {
           </div>
           <div className="container row d-flex justify-content-center">
             <div className="d-flex justify-content-center gap-md-4 row row-cols-lg-1 row-cols-md-2 row-cols-lg-3">
-              <div
-                id="product"
-                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
-              >
-                <div className="product-img">
-                  <img src={Product3} alt="" />
-                </div>
-                <div className="product-title text-start">
-                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
-                </div>
-                <div className="product-description text-start">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Nesciunt rem qui corrupti aliquam mollitia.
-                  </p>
-                  <div className="product-buy text-end mb-2 p-3">
-                    <button className="btn btn-dark ">Buy</button>
+              {data.map((item, index) => (
+                <div
+                  key={index}
+                  id="product"
+                  className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
+                >
+                  <div className="product-img">
+                    <img
+                      alt={item.product_image}
+                      src={`http://localhost:8000/${item.product_image}`}
+                    />
+                  </div>
+                  <div className="product-title text-start">
+                    <h5 className="fw-bold">{item.product_name}</h5>
+                  </div>
+                  <div className="product-description text-start">
+                    <p>{item.product_description}</p>
+                    <div className="product-buy text-end mb-2 p-3">
+                    <button className="btn btn-dark" onClick={() => buyProduct(item.id)}>Buy</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                id="product"
-                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
-              >
-                <div className="product-img">
-                  <img src={Product4} alt="" />
-                </div>
-                <div className="product-title text-start">
-                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
-                </div>
-                <div className="product-description text-start">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Nesciunt rem qui corrupti aliquam mollitia.
-                  </p>
-                  <div className="product-buy text-end mb-2 p-3">
-                    <button className="btn btn-dark ">Buy</button>
-                  </div>
-                </div>
-              </div>
-              <div
-                id="product"
-                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
-              >
-                <div className="product-img">
-                  <img src={Product5} alt="" />
-                </div>
-                <div className="product-title text-start">
-                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
-                </div>
-                <div className="product-description text-start">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Nesciunt rem qui corrupti aliquam mollitia.
-                  </p>
-                  <div className="product-buy text-end mb-2 p-3">
-                    <button className="btn btn-dark ">Buy</button>
-                  </div>
-                </div>
-              </div>
-              <div
-                id="product"
-                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
-              >
-                <div className="product-img">
-                  <img src={Product6} alt="" />
-                </div>
-                <div className="product-title text-start">
-                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
-                </div>
-                <div className="product-description text-start">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Nesciunt rem qui corrupti aliquam mollitia.
-                  </p>
-                  <div className="product-buy text-end mb-2 p-3">
-                    <button className="btn btn-dark ">Buy</button>
-                  </div>
-                </div>
-              </div>
-              <div
-                id="product"
-                className="col-sm-1 col-md-2 col-lg-3 col-xl-4 mx-3 my-5 card"
-              >
-                <div className="product-img">
-                  <img src={Product7} alt="" />
-                </div>
-                <div className="product-title text-start">
-                  <h5 className="fw-bold">KEYBOARD RK 61 LIMITED</h5>
-                </div>
-                <div className="product-description text-start">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Nesciunt rem qui corrupti aliquam mollitia.
-                  </p>
-                  <div className="product-buy text-end mb-2 p-3">
-                    <button className="btn btn-dark ">Buy</button>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

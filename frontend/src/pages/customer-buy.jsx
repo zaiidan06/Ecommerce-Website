@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import CreateButton from "../components/createButton";
 import { useNavigate, Routes, Route, Link } from "react-router-dom";
+import { Modal, Button, Form } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import reactLogo from "../assets/react.svg";
 import Login from "../pages/login";
 import Edit from "../pages/edit";
@@ -12,16 +13,19 @@ import Home from "../pages/home";
 import Product from "./product";
 import LightMode from "../assets/light-mode.png";
 import NightMode from "../assets/night-mode.png";
+import Dashboard from "./dashboard";
 
-const Dashboard = () => {
+const CustomerBuy = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [status, setStatus] = useState("pending");
 
   useEffect(() => {
-    // Fetch data from API
     axios
-      .get("http://localhost:8000/api/a1/product/allproduct", {
+      .get("http://localhost:8000/api/a1/product/transaction", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,23 +38,72 @@ const Dashboard = () => {
       });
   }, [navigate, token]);
 
-  const handleEdit = (id) => {
-    navigate(`/edit/${id}`);
+  const handleUpdate = async (id) => {
+    try {
+      await axios.put(
+        `http://localhost:8000/api/a1/product/uptstatus/${id}`,
+        { status: "completed" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setData(
+        data.map((item) =>
+          item.id === id ? { ...item, status: "completed" } : item
+        )
+      );
+      toast.success("Completed");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Rejected");
+    }
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/a1/product/delete/${id}`, {
+      await axios.delete(`http://localhost:8000/api/a1/product/deletestatus/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
       setData(data.filter((item) => item.id !== id));
-      toast.success("Data berhasil dihapus");
+      toast.success("Data Transaction berhasil dihapus");
     } catch (error) {
       console.error("Error:", error);
       toast.error("Gagal menghapus data");
+    }
+  };
+
+  const handleChangeStatus = async () => {
+    if (selectedTransaction) {
+      try {
+        await axios.post(
+          `http://localhost:8000/api/a1/product/changestatus/${selectedTransaction.id}`,
+          { status },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setData(
+          data.map((item) =>
+            item.id === selectedTransaction.id
+              ? { ...item, status }
+              : item
+          )
+        );
+        toast.success("Status berhasil diubah");
+        setShowModal(false);
+      } catch (error) {
+        console.error("Error:", error);
+        toast.error("Gagal mengubah status");
+      }
     }
   };
 
@@ -75,9 +128,45 @@ const Dashboard = () => {
     }
   }
 
+  const handleInfoClick = (transaction) => {
+    setSelectedTransaction(transaction);
+    setStatus(transaction.status); // Set status based on the selected transaction
+    setShowModal(true);
+  };
+
   return (
     <>
       <ToastContainer />
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Transaction Status</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formStatus">
+              <Form.Label>Status</Form.Label>
+              <Form.Control
+                as="select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleChangeStatus}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <div className="nav-container-custom">
         <nav className="mt-2">
           <a href="https://github.com/zaiidan06">
@@ -107,7 +196,6 @@ const Dashboard = () => {
         </nav>
         <div className="sidebar">
           <ul>
-            {/* {{-- ALL OF THIS ICON IS FROM GOOGLE FONTS --}} */}
             <li className="nav-item">
               <span className="material-symbols-outlined">Dashboard</span>
               {token ? (
@@ -126,8 +214,6 @@ const Dashboard = () => {
                 </button>
               )}
             </li>
-
-            {/* {{-- ALL OF THIS ICON IS FROM GOOGLE FONTS --}} */}
             <li className="nav-item shadow-none">
               <span className="material-symbols-outlined">home</span>
               {token ? (
@@ -146,10 +232,8 @@ const Dashboard = () => {
                 </button>
               )}
             </li>
-
-            {/* {{-- ALL OF THIS ICON IS FROM GOOGLE FONTS --}} */}
             <li className="nav-item shadow-none">
-            <span className="material-symbols-outlined">keyboard</span>
+              <span className="material-symbols-outlined">keyboard</span>
               {token ? (
                 <Link
                   to={"/product"}
@@ -166,30 +250,26 @@ const Dashboard = () => {
                 </button>
               )}
             </li>
-            {/* {{-- ALL OF THIS ICON IS FROM GOOGLE FONTS --}} */}
             <li className="nav-item shadow-none">
-            <span className="material-symbols-outlined">logout</span>
+              <span className="material-symbols-outlined">logout</span>
               {token ? (
-               <a
-               onClick={handleLogout}
-               className="nav-link shadow-none secondary-color"
-               style={{ cursor: "pointer"}}
-             >
-               Logout
-             </a>
+                <a
+                  onClick={handleLogout}
+                  className="nav-link shadow-none secondary-color"
+                  style={{ cursor: "pointer" }}
+                >
+                  Logout
+                </a>
               ) : (
                 <Link to={"/"} className="nav-link shadow-none secondary-color">
                   Login
                 </Link>
               )}
             </li>
-           
-            {/* {{-- ALL OF THIS ICON IS FROM GOOGLE FONTS --}} */}
             <li>
               <span className="material-symbols-outlined">settings</span>
               <a href="#">Settings</a>
             </li>
-
           </ul>
         </div>
         <div className="container">
@@ -215,17 +295,18 @@ const Dashboard = () => {
               </div>
               <div className="card-custom">
                 <span id="iconDash-4" className="material-symbols-outlined">
-                  <a href="customer-buy">shopping_cart</a>
+                  <a href="">shopping_cart</a>
                 </span>
                 <h5 className="fw-bold">Customer Buy</h5>
               </div>
             </div>
           </div>
 
-          <CreateButton />
-          <div className="content-2">
+          <h3 className="fw-bold mt-5" style={{ marginRight: "-200px" }}>
+            Data Transaction ✨
+          </h3>
+          <div className="content-2 mt-5">
             <div className="table-responsive col-xl-11 rounded">
-              {/* {data.length > 0 ? ( */}
               <table className="table table-bordered table-hover text-center">
                 <thead className="table-primary">
                   <tr>
@@ -236,9 +317,8 @@ const Dashboard = () => {
                     <th className="text-center align-middle px-5">
                       Product Image
                     </th>
-                    <th className="text-center align-middle px-5">
-                      Product Description
-                    </th>
+                    <th className="text-center align-middle px-5">Person</th>
+                    <th className="text-center align-middle px-5">Status</th>
                     <th className="text-center align-middle px-5">Action</th>
                   </tr>
                 </thead>
@@ -259,41 +339,55 @@ const Dashboard = () => {
                         />
                       </td>
                       <td className="text-center align-middle fw-normal">
-                        {item.product_description}
+                        {item.user_name}
                       </td>
                       <td className="text-center align-middle fw-normal">
-                        <button
-                          onClick={() => handleEdit(item.id)}
-                          className="col-md-5 btn btn-warning mx-1"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => {
-                            if (
-                              window.confirm("Anda yakin ingin menghapus ini?")
-                            ) {
-                              handleDelete(item.id);
-                            }
-                          }}
-                          className="col-md-6 btn btn-danger"
-                        >
-                          Delete
-                        </button>
+                        {item.status}
+                      </td>
+                      <td className="text-center align-middle fw-normal">
+                        {item.status !== "completed" ? (
+                          <>
+                            <button
+                              onClick={() => handleUpdate(item.id)}
+                              className="col-md-7 btn btn-success mx-1"
+                            >
+                              Completed
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (
+                                  window.confirm(
+                                    "Anda yakin ingin menghapus ini?"
+                                  )
+                                ) {
+                                  handleDelete(item.id);
+                                }
+                              }}
+                              className="col-md-4 btn btn-danger"
+                            >
+                              Delete
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => handleInfoClick(item)}
+                            className="col-md-7 btn btn-info mx-1"
+                          >
+                            Info
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              {/* ) : (
-            <p>Loading...</p>
-          )} */}
             </div>
           </div>
         </div>
       </div>
 
       <Routes>
+        <Route path="/customerbuy/*" element={<CustomerBuy />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create" element={<Create />} />
@@ -305,4 +399,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CustomerBuy;

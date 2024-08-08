@@ -13,4 +13,9 @@ class Product extends Model
         'product_image',
         'product_description'
     ];
+
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
+    }
+
 }
